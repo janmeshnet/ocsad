@@ -2,6 +2,11 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -166,8 +171,11 @@
   <object class="GtkTextBuffer" id="textbuffer2"/>
   <object class="GtkTextBuffer" id="textbuffer3"/>
   <object class="GtkApplicationWindow" id="ocsad_main_window">
+    <property name="height_request">250</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Ocsad open cjdns services announcement and directory</property>
+    <property name="resizable">False</property>
+    <property name="default_height">250</property>
     <property name="icon_name">Ocsad open cjdns services announcement and directory</property>
     <child type="titlebar">
       <object class="GtkMenuBar">
@@ -958,6 +966,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="onStartSearch" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -981,7 +990,7 @@
                       <object class="GtkComboBoxText">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="active">1</property>
+                        <property name="active">0</property>
                         <property name="button_sensitivity">on</property>
                         <property name="active_id">name</property>
                         <items>
@@ -1774,10 +1783,51 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Real-world GPS-style decimal coordinates of the station, like "42.012 -6.109"</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Real-world GPS-style decimal coordinates (ex "-42.012 6.109") of your station.</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Choose visibility of this: </property>
+                            <property name="justify">right</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="combo_gps_visibility">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="active">0</property>
+                            <property name="active_id">private</property>
+                            <items>
+                              <item id="private" translatable="yes">Private</item>
+                              <item id="public" translatable="yes">Public</item>
+                            </items>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1890,13 +1940,27 @@ Url of an image file of the form http://[&lt;ipv6 address&gt;]:&lt;port&gt;/path
                         <property name="can_focus">False</property>
                         <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkTextView">
+                          <object class="GtkScrolledWindow">
+                            <property name="height_request">160</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="buffer">textbuffer2</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkTextView">
+                                <property name="height_request">160</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="valign">start</property>
+                                <property name="border_width">6</property>
+                                <property name="hscroll_policy">natural</property>
+                                <property name="vscroll_policy">natural</property>
+                                <property name="wrap_mode">word</property>
+                                <property name="buffer">textbuffer2</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -1940,13 +2004,25 @@ Url of an image file of the form http://[&lt;ipv6 address&gt;]:&lt;port&gt;/path
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkTextView">
+                      <object class="GtkScrolledWindow">
+                        <property name="height_request">376</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="buffer">textbuffer1</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <object class="GtkTextView">
+                            <property name="height_request">376</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="valign">start</property>
+                            <property name="hscroll_policy">natural</property>
+                            <property name="vscroll_policy">natural</property>
+                            <property name="buffer">textbuffer1</property>
+                          </object>
+                        </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
@@ -2015,6 +2091,7 @@ Url of an image file of the form http://[&lt;ipv6 address&gt;]:&lt;port&gt;/path
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="image">image1</property>
+                    <signal name="clicked" handler="onStartCrawler" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -2283,10 +2360,11 @@ below. You can use $1 for the actual command, with quotes escaped, or $2 without
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry">
+                          <object class="GtkEntry" id="settings_ip6addr">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="width_chars">62</property>
+                            <property name="placeholder_text" translatable="yes">Ex: 0123:4567:890a:bcde:fedc::ba09</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2301,6 +2379,7 @@ below. You can use $1 for the actual command, with quotes escaped, or $2 without
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="image">image27</property>
+                            <signal name="clicked" handler="onSettingsIp6addrSave" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2452,7 +2531,7 @@ network services. Please see http://janmesh.net for more information. </property
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Crawler threads: 0 - Crawled nodes: 0 - Replies currently stored in directory: 0</property>
+            <property name="label" translatable="yes">Crawler threads: 0 - Crawled nodes: 0 - Replies currently stored: 0 - Querying hits: 0</property>
           </object>
           <packing>
             <property name="expand">False</property>
